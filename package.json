@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "vercel dev",
-    "build": "echo 'building app...'",
+    "build": "node index.js",
     "dev": "nodemon index.js",
     "vercel-build": "vercel build"
   },
