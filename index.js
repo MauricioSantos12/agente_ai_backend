@@ -28,7 +28,7 @@ const { Document } = require("langchain/document");
 require("dotenv").config();
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json()); // Para parsear JSON
@@ -112,7 +112,7 @@ const getRetrieverFromWebPage = async () => {
   return retriever;
 };
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/", (req, res) => res.send("Express on Render"));
 
 app.post("/api/general-chat", async (req, res) => {
   const { message, chatHistory } = req.body;
