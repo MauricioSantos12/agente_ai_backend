@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "vercel dev",
     "build": "echo 'building app...'",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "vercel-build": "vercel build"
   },
   "keywords": [],
   "author": "",
