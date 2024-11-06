@@ -115,9 +115,7 @@ const getRetrieverFromWebPage = async () => {
   return retriever;
 };
 
-app.get("/", (req, res) => {
-  res.send("The server is ready");
-});
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.post("/api/general-chat", async (req, res) => {
   const { message, chatHistory } = req.body;
