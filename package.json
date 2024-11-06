@@ -8,7 +8,8 @@
     "start": "vercel dev",
     "build": "node index.js",
     "dev": "nodemon index.js",
-    "vercel-build": "node index.js"
+    "vercel-build": "node index.js",
+    "vercel": "vercel build && vercel deploy"
   },
   "keywords": [],
   "author": "",
