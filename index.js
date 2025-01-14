@@ -61,7 +61,7 @@ const loadPdfDataUtel = async () => {
   return pdfData;
 };
 
-const getRetrieverFromPDFs = async () => {
+const getRetrieverFromPDFs = async (textPdf) => {
   // Cargar el contenido de los PDFs
   const pdfData = await loadPdfDataUtel();
   const splitter = new RecursiveCharacterTextSplitter({
@@ -71,15 +71,25 @@ const getRetrieverFromPDFs = async () => {
 
   // Dividir cada documento en fragmentos
   const splitDocs = [];
-  for (const [name, content] of Object.entries(pdfData)) {
-    // const doc = { text: content, metadata: { name } };
+
+  if (textPdf) {
     const doc = new Document({
-      pageContent: content,
-      metadata: { name },
+      pageContent: textPdf,
+      metadata: { name: "pdf-by-lp" },
     });
     const chunks = await splitter.splitDocuments([doc]);
     splitDocs.push(...chunks);
+  } else {
+    for (const [name, content] of Object.entries(pdfData)) {
+      const doc = new Document({
+        pageContent: content,
+        metadata: { name },
+      });
+      const chunks = await splitter.splitDocuments([doc]);
+      splitDocs.push(...chunks);
+    }
   }
+
   const embeddings = new OpenAIEmbeddings();
 
   // Crear el vector store desde los fragmentos divididos
@@ -110,6 +120,28 @@ const getRetrieverFromWebPage = async () => {
 
   const retriever = vectorstore.asRetriever({ k: 2 });
   return retriever;
+};
+
+const loadTextData = (typeLp) => {
+  let filePath = "";
+  switch (typeLp ? typeLp.toLowerCase().trim() : "") {
+    case "femsa":
+      filePath = "./base_lps/femsa.html";
+      break;
+    default:
+      filePath = "./base_lps/shcp.html";
+      break;
+  }
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf-8", (error, data) => {
+      if (error) {
+        console.error("Error al cargar el archivo:", error);
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
 };
 
 app.get("/", (req, res) => res.send("Express on Render"));
@@ -526,6 +558,153 @@ app.post("/api/creator-html", async (req, res) => {
     chatHistory.push(new AIMessage(response.output));
     res.status(200).json({
       responseModel: response.output,
+      chatHistory: chatHistory,
+    });
+  } catch (error) {
+    if (error.response) {
+      console.error("Error al llamar a OPENAI:", error);
+      return res.status(500).json({ error: "Error en OPENAI." });
+    }
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Error en el servidor." });
+  }
+});
+
+app.post("/api/creator-html", async (req, res) => {
+  const { message, chatHistory, typeLp, utm } = req.body;
+  const withPdf = false;
+
+  if (!message) {
+    return res.status(400).send("Por favor, proporciona un message.");
+  }
+
+  const model = new ChatOpenAI({
+    temperature: 1,
+    modelName: "gpt-3.5-turbo",
+  });
+
+  try {
+    const finalResponse = {
+      output: "",
+      chatHistory: chatHistory,
+    };
+    let agentExecutor;
+    let response;
+    let topic;
+    let finalTypeLp;
+    if (utm) {
+      const url = new URL(message);
+      topic = url.searchParams.get("utm_topic");
+      finalTypeLp = url.searchParams.get("utm_typeLp");
+    } else {
+      topic = message;
+      finalTypeLp = typeLp;
+    }
+    const htmlText = await loadTextData(finalTypeLp);
+    if (!htmlText || htmlText.trim() === "") {
+      throw new Error(
+        "El archivo HTML está vacío o no se cargó correctamente."
+      );
+    }
+
+    if (withPdf) {
+      const prompt = ChatPromptTemplate.fromMessages([
+        new SystemMessage(
+          `Eres un generador experto de landing pages. 
+          Tu tarea es CAMBIAR TODOS los textos visibles en el archivo HTML proporcionado para que se relacionen con el tema "${topic}". 
+          No debes cambiar la estructura ni los nombres de clases ni IDs.
+          
+          Cambia los siguientes elementos de texto:
+          - Títulos (<h1>, <h2>, <h3>, etc.).
+          - Párrafos (<p>).
+          - Textos de botones (<a>, <button>).
+          - Atributos "alt" y "title" de imágenes.
+          
+          **Formato esperado:** 
+          Devuelve SOLO el archivo HTML completo en formato puro, comenzando con "<!DOCTYPE html>". 
+          No incluyas mensajes explicativos, comentarios ni enlaces de descarga. No omitas ningún estilo.
+          
+          **Archivo HTML Base:** 
+          ${htmlText}`
+        ),
+        new MessagesPlaceholder("chat_history"),
+        new MessagesPlaceholder("agent_scratchpad"),
+      ]);
+      const retrieverUtelPdf = await getRetrieverFromPDFs();
+      const retrieverTool = createRetrieverTool(retrieverUtelPdf, {
+        name: "utel_search",
+        description: "Usa esta herramienta para buscar información",
+      });
+
+      const agent = await createOpenAIFunctionsAgent({
+        llm: model,
+        prompt,
+        tools: [retrieverTool],
+      });
+
+      agentExecutor = new AgentExecutor({
+        agent,
+        tools: [retrieverTool],
+      });
+
+      response = await agentExecutor.invoke({
+        input: message,
+        chat_history: chatHistory || [],
+      });
+      if (response) {
+        finalResponse.output = response.output;
+      }
+    } else {
+      const prompt = ChatPromptTemplate.fromMessages([
+        new SystemMessage(
+          `Eres un generador experto de landing pages. Tu tarea es CAMBIAR SOLO los textos visibles en el archivo HTML proporcionado para que se relacionen con el tema "${topic}". 
+
+          **Instrucciones específicas:**  
+          - NO modifiques la estructura ni los contenidos de la etiqueta <style> pero inclúyela tal cual como viene. 
+          - No añadas comentarios, texto extra ni mensajes como "Here goes the CSS code - No modification allowed".
+          - No modifiques las imágenes.
+          - Cambia exclusivamente los textos en:  
+            - Títulos (<h1>, <h2>, <h3>, etc.).  
+            - Párrafos (<p>).  
+            - Textos de botones (<a>, <button>).  
+            - Atributos "alt" y "title" de imágenes.  
+
+          **Formato esperado:**  
+          - Devuelve SOLO el archivo HTML actualizado, comenzando con "<!DOCTYPE html>".  
+          - NO incluyas explicaciones, comentarios ni enlaces de descarga.  
+
+          **Archivo HTML Base:**  
+          ${htmlText}`
+        ),
+        new MessagesPlaceholder("chat_history"),
+        new HumanMessage("{htmlData}"),
+      ]);
+      const chain = prompt.pipe(model);
+
+      response = await chain.invoke({
+        input: message,
+        chat_history: chatHistory,
+      });
+      if (response) {
+        finalResponse.output = response.content;
+      }
+    }
+
+    if (!finalResponse || !finalResponse.output) {
+      console.error("No se recibió respuesta de la IA.");
+      return res.status(500).json({ error: "Respuesta vacía de la IA." });
+    }
+
+    if (!finalResponse.output.startsWith("<!DOCTYPE html>")) {
+      console.error("La IA no devolvió HTML válido:");
+      return res.status(500).json({ error: "HTML no válido." });
+    }
+
+    chatHistory.push(new HumanMessage(message));
+    chatHistory.push(new AIMessage(finalResponse.output));
+
+    res.status(200).json({
+      responseModel: finalResponse.output,
       chatHistory: chatHistory,
     });
   } catch (error) {
