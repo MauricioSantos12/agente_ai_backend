@@ -8,7 +8,11 @@ const {
   ChatPromptTemplate,
   MessagesPlaceholder,
 } = require("@langchain/core/prompts");
-const { HumanMessage, AIMessage } = require("@langchain/core/messages");
+const {
+  HumanMessage,
+  AIMessage,
+  SystemMessage,
+} = require("@langchain/core/messages");
 const {
   createOpenAIFunctionsAgent,
   AgentExecutor,
