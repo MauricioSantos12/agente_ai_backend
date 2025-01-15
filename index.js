@@ -126,14 +126,23 @@ const getRetrieverFromWebPage = async () => {
   return retriever;
 };
 
-const loadTextData = (typeLp) => {
+const getHtmlByTypeLp = (typeLp) => {
   let filePath = "";
   switch (typeLp ? typeLp.toLowerCase().trim() : "") {
     case "femsa":
-      filePath = "./base_lps/femsa.html";
+      filePath = "./base_lps/femsa/index.html";
+      break;
+    case "ebook":
+      filePath = "./base_lps/ebook/index.html";
+      break;
+    case "webinar":
+      filePath = "./base_lps/webinar/index.html";
+      break;
+    case "webinar_ingenieria":
+      filePath = "./base_lps/webinar_ingenieria/index.html";
       break;
     default:
-      filePath = "./base_lps/shcp.html";
+      "./base_lps/shcp/index.html";
       break;
   }
   return new Promise((resolve, reject) => {
@@ -146,6 +155,53 @@ const loadTextData = (typeLp) => {
       }
     });
   });
+};
+
+const getStylesByTypeLp = (typeLp) => {
+  let filePath = "";
+  switch (typeLp ? typeLp.toLowerCase().trim() : "") {
+    case "femsa":
+      filePath = "./base_lps/femsa/styles.css";
+      break;
+    case "ebook":
+      filePath = "./base_lps/ebook/styles.css";
+      break;
+    case "webinar":
+      filePath = "./base_lps/webinar/styles.css";
+      break;
+    case "webinar_ingenieria":
+      filePath = "./base_lps/webinar_ingenieria/styles.css";
+      break;
+    default:
+      "./base_lps/shcp/styles.css";
+      break;
+  }
+
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf-8", (error, data) => {
+      if (error) {
+        console.error("Error al cargar el archivo:", error);
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};
+
+const mergeHtmlAndCss = (html, css) => {
+  const htmlSplitted = html.split("</head>");
+  let finalHtml;
+  if (htmlSplitted.length > 0) {
+    finalHtml = `
+    ${htmlSplitted[0]}
+    <style>
+    ${css}
+    </style>
+    ${htmlSplitted[1]}
+  `;
+  }
+  return finalHtml;
 };
 
 app.get("/", (req, res) => res.send("Express on Render"));
@@ -539,8 +595,9 @@ app.post("/api/creator-html", async (req, res) => {
       topic = message;
       finalTypeLp = typeLp;
     }
-    const htmlText = await loadTextData(finalTypeLp);
-    if (!htmlText || htmlText.trim() === "") {
+    const htmlContent = await getHtmlByTypeLp(finalTypeLp);
+    const cssContent = await getStylesByTypeLp(finalTypeLp);
+    if (!htmlContent || htmlContent.trim() === "") {
       throw new Error(
         "El archivo HTML está vacío o no se cargó correctamente."
       );
@@ -564,7 +621,7 @@ app.post("/api/creator-html", async (req, res) => {
           No incluyas mensajes explicativos, comentarios ni enlaces de descarga. No omitas ningún estilo.
           
           **Archivo HTML Base:** 
-          ${htmlText}`
+          ${htmlContent}`
         ),
         new MessagesPlaceholder("chat_history"),
         new MessagesPlaceholder("agent_scratchpad"),
@@ -613,7 +670,7 @@ app.post("/api/creator-html", async (req, res) => {
           - NO incluyas explicaciones, comentarios ni enlaces de descarga.  
 
           **Archivo HTML Base:**  
-          ${htmlText}`
+          ${htmlContent}`
         ),
         new MessagesPlaceholder("chat_history"),
         new HumanMessage("{htmlData}"),
@@ -638,13 +695,10 @@ app.post("/api/creator-html", async (req, res) => {
       console.error("La IA no devolvió HTML válido:");
       return res.status(500).json({ error: "HTML no válido." });
     }
-
-    chatHistory.push(new HumanMessage(message));
-    chatHistory.push(new AIMessage(finalResponse.output));
+    const htmlToGenerate = mergeHtmlAndCss(finalResponse.output, cssContent);
 
     res.status(200).json({
-      responseModel: finalResponse.output,
-      chatHistory: chatHistory,
+      htmlToRender: htmlToGenerate,
     });
   } catch (error) {
     if (error.response) {

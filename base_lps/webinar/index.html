@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, inmain-colorvaritial-scale=1.0">
+    <title>Utel - Webinar LP</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link defer="" rel="shortcut icon" href="https://mas-utel.inconcertcc.com/d/2aa6989c-f55d-4e5d-84a5-ac20a9a6e35f">
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TMRL4S3Q');</script>
+    <!-- End Google Tag Manager -->
+
+
+
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TMRL4S3Q" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class='container-parent-header' id=sectionHeader>
+        <header class="containerNav">
+            <nav class="navHeader">
+                <div class="left-section">
+                    <a class="navbar-brand">
+                        <img src="https://landing.ingenierosconectados.com/webinar-lp/img/logo-utel.webp" alt="UTEL"
+                            class="imgHeader" />
+                    </a>
+                </div>
+                <div class="rigth-section">
+                    <a class="buttonHeader" href="#formulario" style="background: null; border:  null; color: null;">
+                        Solicita información
+                    </a>
+                </div>
+            </nav>
+        </header>
+    </div>
+    <div id=sectionHome class="home-form" style="background-image:
+            url('https://landing.ingenierosconectados.com/webinar-lp/img/banner.webp')">
+        <div class="banner2">
+            <div class="main-container">
+                <div class="text-container">
+                    <h1 style="color: #FFF;">Descubre cómo la Inteligencia Emocional impulsa tu <br /> Carrera de
+                        Ingeniería</h1>
+                    <h5 style="color: #FFF;">¡Participa en este webinar gratuito y da el primer paso hacia el éxito
+                        profesional!
+                    </h5>
+                </div>
+            </div>
+            <div class="cotainer-form">
+                <div id="formulario" class="col-10 col-md-4 formulario">
+                    <h3 class="tituloForm">Reserva tu lugar en el webinar</h3>
+                    <!-- <p class="contentForm">Conviértete en el ingeniero del mañana No dejes pasar esta oportunidad. Conoce más sobre nuestros programas, sus beneficios y cómo puedes dar el primer paso hacia una carrera llena de logros.</p> -->
+
+                    <div id="form-preview"></div>
+                    <script src="https://formularios.utel.edu.mx/render/v1/form.js"></script>
+                    <script>
+                        utel.forms.create({
+                            divId: 'form-preview',
+                            formId: '1Dw3UN4V',
+                            countryCode: 'MX',
+                            timeOutRedirect: 2000,
+                            params: {
+                                sources: {
+                                    source: '',
+                                    medium: '',
+                                },
+                            },
+
+                            beforeSubmit: (
+                                $data,
+                                submit,
+                            ) => {
+                                $data.data.sourceId = "SUPERORGANICOS-INGENIERIA-LP";
+                                var dataLayer =
+                                    window.dataLayer || []
+                                dataLayer.push({
+                                    ecommerce: null,
+                                })
+                                dataLayer.push({
+                                    event: 'datos_usuario',
+                                    nombre_usuario:
+                                        $data.data?.name,
+                                    correo_electronico:
+                                        $data.data?.email,
+                                    telefono:
+                                        $data.data
+                                            ?.cellphone,
+                                    Pais:
+                                        $data.data
+                                            ?.country ||
+                                        $data.metadata
+                                            ?.countryCode ||
+                                        '',
+                                    'ID-Transaction':
+                                        $data.idTransaction,
+                                })
+
+                                dataLayer.push({
+                                    event:
+                                        'transaction_inconcert_mexico',
+                                    ecommerce: {
+                                        purchase: {
+                                            actionField: {
+                                                id:
+                                                    $data.idTransaction,
+                                                affiliation:
+                                                    window
+                                                        .location
+                                                        .href,
+                                                revenue:
+                                                    '10',
+                                            },
+                                            products: [
+                                                {
+                                                    name:
+                                                        $data
+                                                            .data
+                                                            ?.program,
+                                                    sku:
+                                                        '12345',
+                                                    pais:
+                                                        $data
+                                                            .data
+                                                            ?.country ||
+                                                        $data
+                                                            .metadata
+                                                            ?.countryCode ||
+                                                        '',
+                                                    modalidad:
+                                                        $data
+                                                            .data
+                                                            ?.modalidad ||
+                                                        'Online',
+                                                    price:
+                                                        '10',
+                                                    brand:
+                                                        'UTEL',
+                                                    category:
+                                                        $data
+                                                            .data
+                                                            ?.area,
+                                                    quantity: 1,
+                                                },
+                                            ],
+                                        },
+                                    },
+                                })
+
+                                submit()
+                            },
+                        })
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id=sectionTextPhoto class="container-section-text-photo">
+        <div class="section-text-photo">
+            <div class="left-container-text-photo">
+                <h2 style="color: null;">
+                    Tu oportunidad para entender la importancia de la ingeniería
+
+                </h2>
+
+                <div class="bullet-container">
+                    <p>
+                        Este webinar te ayudará a comprender cómo desarrollar habilidades emocionales puede marcar la
+                        diferencia en tu desempeño como ingeniero y en tu impacto dentro de equipos multidisciplinarios.
+                    </p>
+                    <h5>En esta sesión, descubrirás:</h5>
+                    <ul>
+                        <li>
+                            🌟 Cómo la inteligencia emocional potencia el liderazgo en ingeniería.
+                        </li>
+                        <li>
+                            🛠️ Estrategias prácticas para fortalecer tus habilidades interpersonales.
+
+                        </li>
+                        <li>
+                            🌍 El papel de la inteligencia emocional en el impacto global de los proyectos.
+                        </li>
+                        <li>
+                            🎯 Claves para destacar en equipos y adaptarte a los retos del mercado actual.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- <div class="right-container" style="background-image:
+                                url('./img/img1.webp')"></div> -->
+        </div>
+    </div>
+    <section class="container-banner-cta">
+        <div class="banner-cta">
+            <!-- <div class="left-container">
+                <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Fbanner-cta-image2.png?alt=media&token=eb01b4aa-20f4-4362-a822-4e996721b246"
+                    class="imageBannerCTA" alt="Utel" />
+            </div> -->
+            <div class="right-container">
+                <p style="color: null;">
+                    <strong> ¡Descubre cómo destacar como ingeniero en un solo <br /> webinar!</strong>
+
+                </p>
+                <div class="btn-container-bannerCTA">
+                    <a class="btn-bannerCTA" href="#formulario">
+                        ¡Quiero aprender las claves para <br /> triunfar en ingeniería!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id=sectionTextPhoto class="container-section-text-photo">
+        <div class="section-text-photo">
+            <div class="left-container-text-photo">
+                <h2 style="color: null;">
+                    Esto es lo que te llevarás de esta sesión
+                </h2>
+
+                <div class="bullet-container">
+
+
+                    <div class="icons-container">
+                        <div><img src="https://landing.ingenierosconectados.com/webinar-lp/img/icon.webp" alt="icon">
+                            <h5>Las habilidades blandas más valoradas por las empresas en ingenieros.</h5>
+
+                        </div>
+
+
+                        <div><img src="https://landing.ingenierosconectados.com/webinar-lp/img/icon2.webp" alt="icon">
+                            <h5>Estrategias para construir relaciones sólidas en entornos técnicos y creativos.
+                            </h5>
+                        </div>
+
+
+                        <div><img src="https://landing.ingenierosconectados.com/webinar-lp/img/icon3.webp" alt="icon">
+                            <h5>Perspectivas globales sobre cómo estas habilidades transformarán tu carrera.</h5>
+                        </div>
+
+
+                        <!-- <div><img src="./img/icon4.webp" alt="icon">
+                        <h5>Red de contactos <br /> global</h5>
+                        <p>Conecta con expertos, líderes y compañeros de todo el mundo.</p>
+                      </div> -->
+                    </div>
+                    <div class="btn-icons-container">
+                        <a href="#formulario" class="btn-verde-icons">Inscribete ahora</a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="right-container" style="background-image:
+                                url('./img/img1.webp')"></div> -->
+        </div>
+    </div>
+
+    <div id=sectionItemsSquare class="container-section-items-square">
+        <div class="section-items-square">
+            <h2 style="color: null;">
+                Así se sintieron quienes asistieron al webinar…
+            </h2>
+            <p style="color: null;">
+                ¡Prepárate para triunfar!
+            </p>
+            <div class="container-items-square">
+                <div class="item-square">
+                    <p>
+                        "Este webinar me abrió los ojos sobre cómo mejorar mi liderazgo en equipos de alto rendimiento".
+                    </p>
+                </div>
+                <div class="item-square">
+                    <p>
+                        "Nunca imaginé que habilidades como la empatía y la comunicación fueran tan cruciales en mi
+                        profesión".
+                    </p>
+                </div>
+                <div class="item-square">
+                    <p>
+                        "Gracias a esta sesión, entendí cómo equilibrar el aspecto técnico con el humano en mis
+                        proyectos".
+                    </p>
+                </div>
+                <div class="item-square">
+                    <p>
+                        “Me pareció muy útil el contenido de este Webinar, ya que hay habilidades que debemos tener en
+                        cuenta en nuestro trabajo en el día a día”.
+                    </p>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div id=sectionTextPhoto class="container-section-text-photo">
+        <div class="section-text-photo">
+            <div class="right-container" style="background-image:
+                url('https://landing.ingenierosconectados.com/webinar-lp/img/losExpertos.webp')">
+            </div>
+            <div class="left-container-text-photo">
+                <h2>Los expertos detrás de este webinar</h2>
+
+
+                <div class="bullet-container">
+                    <p>
+                        Esta sesión gratuita ha sido diseñada por profesionales que conocen el mercado. A lo largo de
+                        los años, han ayudado a futuros ingenieros a comprender su papel clave en equipos
+                        multidisciplinarios, impulsándolos a liderar proyectos y superar los retos de las industrias más
+                        exigentes.
+                        <br />
+                        <br />
+                        Con un enfoque práctico y actualizado, este webinar te brindará conocimientos que pueden marcar
+                        la diferencia en tu camino profesional. Aquí, aprenderás no solo las razones por las que las
+                        empresas buscan ingenieros, sino también cómo destacar y convertirte en el profesional que el
+                        mercado necesita.
+                    </p>
+
+                    <div class="btn-container-bannerCTA">
+                        <a class="btn-bannerCTA" href="#formulario">
+                            Únete y da el primer paso para <br /> construir una carrera con impacto real
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id=sectionTextPhotoBullets class="container-section-text-photo-bullets">
+        <div class="section-text-photo-bullets">
+            <div class="left-container-text-photo-bullets">
+
+
+                <div class="container-bullets-text-photo">
+                    <h2>¿Es este webinar para ti?</h2>
+                    <p>
+                        Está diseñado para futuros estudiantes, profesionales interesados en potenciar sus habilidades e
+                        ingenieros que quieren dar el primer paso hacia una carrera que impacta el mundo.
+                    </p>
+
+                    <div class="bullet-container">
+                        <ul>
+                            <li> <img
+                                    src="https://landing.ingenierosconectados.com/webinar-lp/img/check-circle%202.webp"
+                                    alt="check-icon" />
+                                Estás considerando estudiar ingeniería o potenciar tu carrera profesional.
+
+                            </li>
+                            <li> <img
+                                    src="https://landing.ingenierosconectados.com/webinar-lp/img/check-circle%202.webp"
+                                    alt="check-icon" />Quieres aprender a destacar en
+                                equipos multidisciplinarios.
+                            </li>
+                            <li> <img
+                                    src="https://landing.ingenierosconectados.com/webinar-lp/img/check-circle%202.webp"
+                                    alt="check-icon" />
+                                Deseas entender cómo las habilidades emocionales transforman el éxito profesional.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="right-container" style="background-image:
+                                url('https://landing.ingenierosconectados.com/webinar-lp/img/enEsteWebinar.webp')">
+            </div>
+        </div>
+    </div>
+
+    <section class="container-banner-cta" style="background-image:
+    url('https://landing.ingenierosconectados.com/webinar-lp/img/banner-blue.webp')">
+        <div class="banner-cta">
+            <!-- <div class="left-container">
+                <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Fbanner-cta-image2.png?alt=media&token=eb01b4aa-20f4-4362-a822-4e996721b246"
+                    class="imageBannerCTA" alt="Utel" />
+            </div> -->
+            <div class="right-container">
+                <p style="color: null;">
+                    <strong>¡No te quedes fuera!</strong>
+                    <br />
+                    Asegura tu lugar en este webinar gratuito y comienza a construir una carrera que las empresas
+                    realmente necesitan.
+                </p>
+                <div class="btn-container-bannerCTA">
+                    <a class="btn-bannerCTA" href="#formulario">
+                        Quiero asistir al webinar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id=sectionFooter class="containerFooter3">
+        <div class="container-footer">
+            <div class="leftFooter">
+                <div class="leftTopFooter">
+                    <p>Acreditaciones internacionales</p>
+                    <div class="containerLogos">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Ficonofooter1.png?alt=media&token=9015c757-db7b-48e0-b04b-8ad64699d5b4"
+                            alt="Utel" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Ficonofooter2.png?alt=media&token=55055737-6e33-4f8c-bb34-6405631f4163"
+                            alt="Utel" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Ficonofooter3.png?alt=media&token=1d0bf2f0-6aa1-465e-b577-5716b8bf8412"
+                            alt="Utel" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Ficonofooter4.png?alt=media&token=da17cafc-0ea2-4c87-81bb-072c896dfccc"
+                            alt="Utel" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Ficonofooter5.png?alt=media&token=be75482b-05a2-4963-b030-1ceb7d9f3d50"
+                            alt="Utel" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Ficonofooter6.png?alt=media&token=77139ce0-969c-449d-8a7b-de08ee4f6ef8"
+                            alt="Utel" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Ficonofooter7.png?alt=media&token=dce0699c-b3f1-4d25-a3a8-41575ecd2766"
+                            alt="Utel" />
+                    </div>
+                </div>
+                <div class="leftEndFooter">
+                    <div class="copyrigth">
+                        <p>
+                            ©2025 Derechos Reservados Scala
+                            Higher Education, SC | Utel
+                            Universidad
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="rigthFooter">
+                <div class="rigthTopFooter">
+                    <p>Siguenos en nuestras redes sociales</p>
+                    <div class="footer-social2">
+                        <div class="containerIcons">
+                            <a href=" https://www.facebook.com/Uteluniversidad/?locale=es_LA" target="_blank">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/footer%2Ffooter-logo-face.png?alt=media&amp;token=6f8dbec3-c7cd-4292-80d0-b7bdb4e4b045"
+                                    alt="Utel" />
+                            </a>
+
+                            <a href="https://x.com/Utel_" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF"
+                                    viewBox="0 0 512 512" focusable="false" class="chakra-icon css-1furnl3">
+                                    <path
+                                        d="M355.904 100H408.832L293.2 232.16L429.232 412H322.72L239.296 302.928L143.84 412H90.8805L214.56 270.64L84.0645 100H193.28L268.688 199.696L355.904 100ZM337.328 380.32H366.656L177.344 130.016H145.872L337.328 380.32Z">
+                                    </path>
+                                </svg>
+                            </a>
+
+
+
+                            <a href="https://www.instagram.com/uteluniversidad/?hl=es" target="_blank">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/header%2Finstagram.png?alt=media&token=763e59df-36f2-4d54-8b1d-0549a468a7f3"
+                                    alt="Utel" />
+                            </a>
+
+                            <a href="https://www.youtube.com/user/UniversidadUTEL" target="_blank">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/landing-page-generator-s4.appspot.com/o/footer%2Ffooter-logo-youtube.png?alt=media&amp;token=2f249e7b-fe58-4837-9760-33eae93a38e7"
+                                    alt="Utel" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="rigthEndFooter">
+                    <a target="_blank" href="https://utelx.io/terminos-y-condiciones/" class="linkText">
+
+                        <p>Términos de uso</p>
+                    </a>
+                    <af target="_blank" href="https://utelx.io/aviso-privacidad-usuarios-utel/" class="linkText">
+
+                        <p>Aviso de privacidad</p>
+                        </a>
+                </div>
+            </div>
+        </div>
+        <script src="https://widget.dapta.ai/dapta_agent_min.js?agentId=670685a1-1ca2-4b85-bb93-c58df1e2b8da"></script>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Sora:wght@100..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --yellowUtel: #FFB937;
+  --greenUtel: #06B706;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Sora", sans-serif;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0px 0.1px #888888;
+}
+
+.navbar>div {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem 0rem;
+}
+
+.contenedor {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 1rem
+}
+
+.bloque2 {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem 0rem;
+}
+
+
+.bloque3,
+.fila {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem 0rem;
+}
+
+.bloque4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  width: 100%;
+  gap: 1rem;
+  background-color: #F5F5F5;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.container-bloque4 {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.container-bloque4>.column {
+  align-items: flex-start;
+}
+
+.container-bloque4-img {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.container-bloque4-img>img {
+  object-fit: cover;
+  width: 100%;
+  max-height: 350px;
+}
+
+.bloque5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem 0rem;
+}
+
+.bloque5-container-cards {
+  color: black;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem 0rem;
+}
+
+.bloque5-container-cards>.card {
+  max-width: 350px;
+  height: auto;
+  overflow: auto;
+}
+
+.bloque5-container-cards>.card>img {
+  object-fit: cover;
+  width: 100%;
+  border-radius: 8px;
+  max-width: 300px;
+}
+
+
+
+.bloque3>.column {
+  align-items: flex-start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--yellowUtel);
+  padding: 10px;
+  border-color: var(--yellowUtel);
+  border-radius: 8px;
+  color: #000 !important;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background-color: var(--greenUtel);
+  border-color: var(--greenUtel);
+  transition: 0.5s;
+  color: white !important;
+}
+
+.bloque1 {
+  background-image: url("https://universidad.utel.edu.mx/convenios/test/assets/fondo_lp.jpg");
+  min-height: 100vh;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bloque1>h2 {
+  font-family: "Sora", sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.continaerTextBloque1 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.containerCards {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  max-width: 1200px;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.containerCards>h2 {
+  font-weight: 1000;
+  font-size: 2rem;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.containerCards>div {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: row;
+  color: white;
+  max-width: 950px;
+  width: 100%;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px gray;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  max-width: 270px;
+}
+
+.card>h4 {
+  font-family: "Sora", sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: black;
+  padding: 0rem 1rem;
+  text-align: center;
+  margin: 0px;
+}
+
+.card>p {
+  font-family: "Sora", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: black;
+  padding: 0rem 1rem 1rem 1rem;
+  margin: 0px;
+  text-align: center;
+}
+
+.card>i {
+  font-size: 45px;
+  padding-top: 1rem;
+  color: var(--greenUtel);
+  font-weight: bolder;
+}
+
+.bloque1>p {
+  font-family: "Sora", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.bloque2>img,
+.bloque3>img {
+  max-width: 350px;
+}
+
+.bloque2>.column,
+.bloque3>.column {
+  max-width: 50%;
+}
+
+footer {
+  background-color: black;
+  padding: 1rem;
+  color: white;
+}
+
+.column>a {
+  color: white;
+}
+
+@media only screen and (max-width: 769px) {
+
+  .bloque2,
+  .bloque3 {
+    flex-direction: column;
+  }
+
+  .bloque2>.column,
+  .bloque3>.column {
+    max-width: 100%;
+  }
+}
