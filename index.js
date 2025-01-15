@@ -606,21 +606,23 @@ app.post("/api/creator-html", async (req, res) => {
     if (withPdf) {
       const prompt = ChatPromptTemplate.fromMessages([
         new SystemMessage(
-          `Eres un generador experto de landing pages. 
-          Tu tarea es CAMBIAR TODOS los textos visibles en el archivo HTML proporcionado para que se relacionen con el tema "${topic}". 
-          No debes cambiar la estructura ni los nombres de clases ni IDs.
-          
-          Cambia los siguientes elementos de texto:
-          - Títulos (<h1>, <h2>, <h3>, etc.).
-          - Párrafos (<p>).
-          - Textos de botones (<a>, <button>).
-          - Atributos "alt" y "title" de imágenes.
-          
-          **Formato esperado:** 
-          Devuelve SOLO el archivo HTML completo en formato puro, comenzando con "<!DOCTYPE html>". 
-          No incluyas mensajes explicativos, comentarios ni enlaces de descarga. No omitas ningún estilo.
-          
-          **Archivo HTML Base:** 
+          `Eres un experto en generación de landing pages. 
+          Tu tarea es modificar TODOS los textos visibles en el archivo HTML proporcionado para que estén relacionados con el tema "${topic}". 
+          NO debes cambiar la estructura del archivo HTML, los nombres de las clases, los IDs ni ningún estilo.
+
+          ### Cambios que debes realizar:
+          1. Actualiza los títulos (<h1>, <h2>, <h3>, etc.) para que estén alineados con el tema "${topic}".
+          2. Modifica los párrafos (<p>) para que reflejen contenido relevante al tema.
+          3. Ajusta los textos de botones (<a>, <button>) para que coincidan con el tema.
+          4. Cambia los atributos "alt" y "title" de imágenes para describirlas de acuerdo al tema.
+
+          ### Requisitos:
+          - Devuelve SOLO el archivo HTML completo, sin explicaciones ni comentarios adicionales. 
+          - Asegúrate de que el archivo HTML sea válido y comience con "<!DOCTYPE html>".
+          - No omitas ningún contenido ni estilo existente en el HTML base.
+          - Asegúrate de que el texto modificado sea coherente, persuasivo y atractivo en el contexto del tema proporcionado.
+
+          ### Archivo HTML Base:
           ${htmlContent}`
         ),
         new MessagesPlaceholder("chat_history"),
@@ -653,24 +655,26 @@ app.post("/api/creator-html", async (req, res) => {
     } else {
       const prompt = ChatPromptTemplate.fromMessages([
         new SystemMessage(
-          `Eres un generador experto de landing pages. Tu tarea es CAMBIAR SOLO los textos visibles en el archivo HTML proporcionado para que se relacionen con el tema "${topic}". 
+          `
+          Eres un experto en generación de landing pages. 
+          Tu tarea es modificar TODOS los textos visibles en el archivo HTML proporcionado para que estén relacionados con el tema "${topic}". 
+          NO debes cambiar la estructura del archivo HTML, los nombres de las clases, los IDs ni ningún estilo.
 
-          **Instrucciones específicas:**  
-          - NO modifiques la estructura ni los contenidos de la etiqueta <style> pero inclúyela tal cual como viene. 
-          - No añadas comentarios, texto extra ni mensajes como "Here goes the CSS code - No modification allowed".
-          - No modifiques las imágenes.
-          - Cambia exclusivamente los textos en:  
-            - Títulos (<h1>, <h2>, <h3>, etc.).  
-            - Párrafos (<p>).  
-            - Textos de botones (<a>, <button>).  
-            - Atributos "alt" y "title" de imágenes.  
+          ### Cambios que debes realizar:
+          1. Actualiza los títulos (<h1>, <h2>, <h3>, etc.) para que estén alineados con el tema "${topic}".
+          2. Modifica los párrafos (<p>) para que reflejen contenido relevante al tema.
+          3. Ajusta los textos de botones (<a>, <button>) para que coincidan con el tema.
+          4. Cambia los atributos "alt" y "title" de imágenes para describirlas de acuerdo al tema.
 
-          **Formato esperado:**  
-          - Devuelve SOLO el archivo HTML actualizado, comenzando con "<!DOCTYPE html>".  
-          - NO incluyas explicaciones, comentarios ni enlaces de descarga.  
+          ### Requisitos:
+          - Devuelve SOLO el archivo HTML completo, sin explicaciones ni comentarios adicionales. 
+          - Asegúrate de que el archivo HTML sea válido y comience con "<!DOCTYPE html>".
+          - No omitas ningún contenido ni estilo existente en el HTML base.
+          - Asegúrate de que el texto modificado sea coherente, persuasivo y atractivo en el contexto del tema proporcionado.
 
-          **Archivo HTML Base:**  
-          ${htmlContent}`
+          ### Archivo HTML Base:
+          ${htmlContent}
+          `
         ),
         new MessagesPlaceholder("chat_history"),
         new HumanMessage("{htmlData}"),
