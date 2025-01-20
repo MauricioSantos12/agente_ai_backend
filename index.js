@@ -714,6 +714,144 @@ app.post("/api/creator-html", async (req, res) => {
   }
 });
 
+app.post("/api/creator-html-by-content", async (req, res) => {
+  const { topic, chatHistory, bodyContent } = req.body;
+  const withPdf = false;
+
+  if (!topic) {
+    return res.status(400).send("Por favor, proporciona un topic.");
+  }
+
+  const model = new ChatOpenAI({
+    temperature: 1,
+    modelName: "gpt-3.5-turbo",
+  });
+
+  try {
+    const finalResponse = {
+      output: "",
+      chatHistory: chatHistory,
+    };
+    let agentExecutor;
+    let response;
+
+    if (!bodyContent || bodyContent.trim() === "") {
+      throw new Error(
+        "El archivo HTML está vacío o no se cargó correctamente."
+      );
+    }
+
+    if (withPdf) {
+      const prompt = ChatPromptTemplate.fromMessages([
+        new SystemMessage(
+          `
+          Eres un experto en generación de landing pages. 
+          Tu tarea es modificar TODOS los textos visibles en el archivo HTML proporcionado para que estén relacionados con el tema "${topic}". 
+          NO debes cambiar la estructura del archivo HTML, los nombres de las clases, los IDs ni ningún estilo.
+
+          ### Cambios que debes realizar:
+          1. Actualiza los títulos (<h1>, <h2>, <h3>, etc.) para que estén alineados con el tema "${topic}".
+          2. Modifica los párrafos (<p>) para que reflejen contenido relevante al tema.
+          3. Ajusta los textos de botones (<a>, <button>) para que coincidan con el tema.
+          4. Cambia los atributos "alt" y "title" de imágenes para describirlas de acuerdo al tema.
+
+          ### Requisitos:
+          - Devuelve SOLO el archivo HTML completo, sin explicaciones ni comentarios adicionales. 
+          - Asegúrate de que el archivo HTML sea válido y comience con "<!DOCTYPE html>".
+          - No omitas ningún contenido ni estilo existente en el HTML base.
+          - Asegúrate de que el texto modificado sea coherente, persuasivo y atractivo en el contexto del tema proporcionado.
+
+          ### Archivo HTML Base:
+          ${bodyContent}
+          `
+        ),
+        new MessagesPlaceholder("chat_history"),
+        new MessagesPlaceholder("agent_scratchpad"),
+      ]);
+      const retrieverUtelPdf = await getRetrieverFromPDFs();
+      const retrieverTool = createRetrieverTool(retrieverUtelPdf, {
+        name: "utel_search",
+        description: "Usa esta herramienta para buscar información",
+      });
+
+      const agent = await createOpenAIFunctionsAgent({
+        llm: model,
+        prompt,
+        tools: [retrieverTool],
+      });
+
+      agentExecutor = new AgentExecutor({
+        agent,
+        tools: [retrieverTool],
+      });
+
+      response = await agentExecutor.invoke({
+        input: topic,
+        chat_history: chatHistory || [],
+      });
+      if (response) {
+        finalResponse.output = response.output;
+      }
+    } else {
+      const prompt = ChatPromptTemplate.fromMessages([
+        new SystemMessage(
+          `Eres un experto en generación de landing pages. 
+          Tu tarea es modificar TODOS los textos visibles en el archivo HTML proporcionado para que estén relacionados con el tema "${topic}". 
+          NO debes cambiar la estructura del archivo HTML, los nombres de las clases, los IDs ni ningún estilo.
+          
+          ### Cambios que debes realizar:
+          1. Actualiza los títulos (<h1>, <h2>, <h3>, etc.) para que estén alineados con el tema "${topic}".
+          2. Modifica los párrafos (<p>) para que reflejen contenido relevante al tema.
+          3. Ajusta los textos de botones (<a>, <button>) para que coincidan con el tema.
+          4. Cambia los atributos "alt" y "title" de imágenes para describirlas de acuerdo al tema.
+          
+          ### Requisitos:
+          - Devuelve SOLO el archivo HTML completo, sin explicaciones ni comentarios adicionales. 
+          - Asegúrate de que el archivo HTML sea válido y comience con "<!DOCTYPE html>".
+          - No omitas ningún contenido ni estilo existente en el HTML base.
+          - Asegúrate de que el texto modificado sea coherente, persuasivo y atractivo en el contexto del tema proporcionado.
+          
+          ### Archivo HTML Base:
+          ${bodyContent}`
+        ),
+        new MessagesPlaceholder("chat_history"),
+        new HumanMessage("{htmlData}"),
+      ]);
+      const chain = prompt.pipe(model);
+
+      response = await chain.invoke({
+        input: topic,
+        chat_history: chatHistory,
+      });
+      if (response) {
+        finalResponse.output = response.content;
+      }
+    }
+
+    if (!finalResponse || !finalResponse.output) {
+      console.error("No se recibió respuesta de la IA.");
+      return res.status(500).json({ error: "Respuesta vacía de la IA." });
+    }
+
+    if (!finalResponse.output.startsWith("<!DOCTYPE html>")) {
+      console.error("La IA no devolvió HTML válido:");
+      return res.status(500).json({ error: "HTML no válido." });
+    }
+
+    res.status(200).json({
+      bodyContent: finalResponse.output,
+      chatHistory: chatHistory,
+    });
+  } catch (error) {
+    if (error.response) {
+      console.error("Error al llamar a OPENAI:", error);
+      return res.status(500).json({ error: "Error en OPENAI." });
+    }
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Error en el servidor." });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor en http://localhost:${PORT}`);
 });
