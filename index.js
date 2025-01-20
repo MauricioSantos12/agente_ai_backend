@@ -34,7 +34,11 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000",
+};
+
+app.use(cors(corsOptions));
 app.use(express.json()); // Para parsear JSON
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
